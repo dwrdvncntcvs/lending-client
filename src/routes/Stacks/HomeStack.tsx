@@ -5,6 +5,7 @@ import {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import { CreateBorrower, Home } from "../../screens";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -19,8 +20,8 @@ interface Props {
 
 const AddBorrowerButton = ({ onPress }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <Text>Add New Borrower</Text>
+    <TouchableOpacity style={{ marginRight: 10 }} onPress={onPress}>
+      <Icon name="add-circle-outline" color={"black"} size={25} />
     </TouchableOpacity>
   );
 };
@@ -29,7 +30,7 @@ export default function HomeStack() {
   return (
     <Navigator>
       <Screen
-        name="Home Screen"
+        name="Home"
         component={Home}
         options={({ navigation }: NativeStackScreenProps<RootHomeProp>) => ({
           headerRight: () => {
