@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeStack, ProfileStack } from "./Stacks";
 import Icon from "react-native-vector-icons/Ionicons";
+import SettingsStack from "./Stacks/SettingsStack";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -22,12 +23,16 @@ export default function BottomTabs() {
           if (name === "Profile Screen")
             iconName = focused ? "person" : "person-outline";
 
+          if (name === "Settings Screen")
+            iconName = focused ? "settings" : "settings-outline";
+
           return <Icon name={iconName!} size={20} color={color} />;
         },
       })}
     >
       <Screen name="Home Screen" component={HomeStack} />
       <Screen name="Profile Screen" component={ProfileStack} />
+      <Screen name="Settings Screen" component={SettingsStack} />
     </Navigator>
   );
 }
