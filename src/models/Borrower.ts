@@ -8,9 +8,9 @@ export interface BorrowerWithLoan {
 }
 
 export interface Borrower {
-  address: string;
-  firstName: string;
-  lastName: string;
-  countryCode: string;
-  id: string;
+  address?: string;
+  firstName?: string;
+  lastName?: string;
+  countryCode?: string;
+  id?: string;
 }

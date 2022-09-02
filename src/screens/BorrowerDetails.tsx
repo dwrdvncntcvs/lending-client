@@ -1,43 +1,54 @@
-import { View, Text } from "react-native";
-import React, { useState, useEffect } from "react";
-import { useAppSelector } from "../configurations/hooks";
+import { View, Text, FlatList } from "react-native";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
-import borrowerSplice, { BorrowerState } from "../features/borrowerSplice";
-import { Borrower } from "../models/Borrower";
+import { getBorrowerById } from "../features/borrowerSplice";
+import { getLoanRequest } from "../features/loanSplice";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 
-const getBorrowerFromArr = (borrowers: BorrowerState, borrowerId: string) => {
-  return borrowers.borrowers.filter(
-    (value) => value.borrower.id === borrowerId
-  )[0];
-};
-
 export default function BorrowerDetails({ route }: Props) {
-  const borrowers = useAppSelector((state) => state.borrower);
+  const { borrower, loan } = useAppSelector((state) => state);
 
-  const [borrower, setBorrower] = useState<Borrower | null>(
-    getBorrowerFromArr(borrowers, route.params.borrowerId).borrower
-  );
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    return () => {
-      setBorrower(null);
+    const getData = async () => {
+      await dispatch(getBorrowerById(route.params.borrowerId));
+      await dispatch(getLoanRequest(route.params.borrowerId));
     };
+
+    getData();
   }, []);
 
-  return !borrower ? (
+  console.log("Loans: ", loan.loans);
+
+  return (
     <View>
-      <Text>No Borrowers</Text>
-    </View>
-  ) : (
-    <View>
+      <Text>Borrower's Details:</Text>
+
       <Text>
-        {borrower!.firstName} {borrower!.lastName}
+        Name: {borrower.borrower.firstName} {borrower.borrower.lastName}
       </Text>
-      <Text>{borrower!.address}</Text>
-      <Text>{borrower!.countryCode}</Text>
+      <Text>Address: {borrower.borrower.address}</Text>
+      <Text>Country Code: {borrower.borrower.countryCode}</Text>
+
+      <Text>Loan Details:</Text>
+      <FlatList
+        data={loan.loans}
+        renderItem={({ item }) => (
+          <View>
+            <Text>Status: {item.status}</Text>
+            <Text>Amount: {item.amount}</Text>
+            <Text>Interest Rate: {item.interestRatePerMonth}</Text>
+            <Text>Number of Payments: {item.numberOfPayments}</Text>
+            <Text>Receivable: {item.receivable}</Text>
+            <Text>Term in Months: {item.termInMonths}</Text>
+            <Text>Term Payment: {item.termPayment}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 }

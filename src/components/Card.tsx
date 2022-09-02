@@ -3,13 +3,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   GestureResponderEvent,
+  View,
 } from "react-native";
-import { BorrowerWithLoan } from "../models/Borrower";
-import { convertDate } from "../utils/date";
-import { getCurrency } from "../utils/helper";
+import { Borrower } from "../models/Borrower";
 
 interface CardProps {
-  borrower: BorrowerWithLoan;
+  borrower: Borrower;
   onPress: (e: GestureResponderEvent) => void;
 }
 
@@ -18,20 +17,10 @@ export default function Card({ borrower, onPress }: CardProps) {
 
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
-      {borrower?.loan?.amount && (
-        <Text style={styles.date}>
-          {convertDate(borrower.loan?.paymentStartDate!)} -{" "}
-          {convertDate(borrower.loan?.paymentEndDate!)}
-        </Text>
-      )}
+      <View style={styles.statusBar}></View>
       <Text style={styles.name}>
-        {borrower.borrower.firstName} {borrower.borrower.lastName}
+        {borrower.firstName} {borrower.lastName}
       </Text>
-      {borrower.loan?.amount && (
-        <Text style={styles.value}>
-          {getCurrency(borrower.borrower.countryCode)} {borrower.loan?.amount}
-        </Text>
-      )}
     </TouchableOpacity>
   );
 }
@@ -39,10 +28,10 @@ export default function Card({ borrower, onPress }: CardProps) {
 const styles = StyleSheet.create({
   cardContainer: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     width: "100%",
-    padding: 20,
     borderRadius: 10,
+    paddingVertical: 20,
     position: "relative",
     zIndex: -1,
     shadowOffset: { width: -2, height: 1 },
@@ -52,23 +41,19 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: "white",
   },
-
-  date: {
-    display: "flex",
-    flex: 1,
-    fontSize: 18,
+  statusBar: {
+    width: "100%",
+    height: 15,
+    backgroundColor: "gray",
+    position: "absolute",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   name: {
     fontSize: 30,
     fontWeight: "bold",
     marginTop: 10,
     color: "gray",
-  },
-  value: {
-    fontSize: 50,
-    fontWeight: "bold",
-    alignSelf: "flex-end",
-    marginTop: 10,
-    color: "gray",
+    marginHorizontal: 20,
   },
 });

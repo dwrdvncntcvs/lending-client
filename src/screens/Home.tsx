@@ -33,8 +33,8 @@ export default function Home({ navigation }: Prop) {
             borrower={item}
             onPress={() =>
               navigation.navigate("Borrower Details", {
-                borrowerId: item.borrower.id,
-                title: `${item.borrower.firstName}'s Details`,
+                borrowerId: item.id!,
+                title: `${item.firstName}'s Details`,
               })
             }
           />

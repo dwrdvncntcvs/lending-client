@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { g_axios } from "../configurations/axios";
-import { BorrowerWithLoan } from "../models/Borrower";
+import { Borrower, BorrowerWithLoan } from "../models/Borrower";
 
 export interface BorrowerState {
-  borrowers: BorrowerWithLoan[];
+  borrowers: Borrower[];
+  borrower: Borrower;
 }
 
 const initialState: BorrowerState = {
   borrowers: [],
+  borrower: {},
 };
 
 export const getBorrowers = createAsyncThunk(
-  "borrower/addBorrower",
+  "borrower/getBorrowers",
   async () => {
     console.log("Getting Borrowers...");
 
@@ -21,11 +23,26 @@ export const getBorrowers = createAsyncThunk(
       url: `${g_axios.defaults.baseURL}/borrowers`,
       responseType: "json",
     });
-    const data: BorrowerWithLoan[] = response.data;
+    const data: Borrower[] = response.data;
 
     console.log("Data: ", data);
 
     return data;
+  }
+);
+
+export const getBorrowerById = createAsyncThunk(
+  "borrower/getBorrowerById",
+  async (borrowerId: string) => {
+    const response = await axios({
+      method: "GET",
+      url: `${g_axios.defaults.baseURL}/borrowers/${borrowerId}`,
+      responseType: "json",
+    });
+
+    console.log("Response: ", response.data);
+
+    return response.data;
   }
 );
 
@@ -44,17 +61,26 @@ const borrowerSlice = createSlice({
         console.log("Pending...");
       })
       .addCase(getBorrowers.fulfilled, (state, action) => {
-        const borrowers: BorrowerWithLoan[] = action.payload!.map(
-          (borrower: BorrowerWithLoan) => ({
-            ...borrower,
-          })
-        );
+        const borrowers: Borrower[] = action.payload;
 
         return { ...state, borrowers };
       })
       .addCase(getBorrowers.rejected, (state) => {
         console.log("Rejected...");
         return state;
+      });
+
+    builder
+      .addCase(getBorrowerById.pending, (state) => {
+        console.log("Pending...");
+      })
+      .addCase(getBorrowerById.fulfilled, (state, action) => {
+        const borrower: Borrower = action.payload;
+
+        return { ...state, borrower };
+      })
+      .addCase(getBorrowerById.rejected, (state) => {
+        console.log("Rejected...");
       });
   },
 });
