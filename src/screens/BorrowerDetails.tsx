@@ -1,10 +1,11 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, StyleSheet, Button } from "react-native";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 import { getBorrowerById } from "../features/borrowerSplice";
 import { getLoanRequest } from "../features/loanSplice";
+import { Loans } from "../components";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 
@@ -25,30 +26,67 @@ export default function BorrowerDetails({ route }: Props) {
   console.log("Loans: ", loan.loans);
 
   return (
-    <View>
-      <Text>Borrower's Details:</Text>
-
-      <Text>
-        Name: {borrower.borrower.firstName} {borrower.borrower.lastName}
-      </Text>
-      <Text>Address: {borrower.borrower.address}</Text>
-      <Text>Country Code: {borrower.borrower.countryCode}</Text>
-
-      <FlatList
-        data={loan.loans}
-        renderItem={({ item }) => (
-          <View>
-            <Text>Loan Details: {item.id}</Text>
-            <Text>Status: {item.status}</Text>
-            <Text>Amount: {item.amount}</Text>
-            <Text>Interest Rate: {item.interestRatePerMonth}</Text>
-            <Text>Number of Payments: {item.numberOfPayments}</Text>
-            <Text>Receivable: {item.receivable}</Text>
-            <Text>Term in Months: {item.termInMonths}</Text>
-            <Text>Term Payment: {item.termPayment}</Text>
-          </View>
-        )}
-      />
+    <View style={styles.mainContainer}>
+      <View style={styles.borrowerContainer}>
+        <Text style={styles.name}>
+          {borrower.borrower.firstName} {borrower.borrower.lastName}
+        </Text>
+        <Text style={styles.address}>{borrower.borrower.address}</Text>
+        <Text style={styles.countryCode}>{borrower.borrower.countryCode}</Text>
+      </View>
+      <Text style={styles.loans}>Loans</Text>
+      {loan.loans.length < 1 ? (
+        <View>
+          <Text>No Loans Found</Text>
+        </View>
+      ) : (
+        <Loans loans={loan.loans} />
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    width: "100%",
+  },
+  borrowerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "white",
+    marginHorizontal: 10,
+    marginVertical: 10,
+    padding: 15,
+    borderRadius: 5,
+    shadowOffset: { width: -2, height: 1 },
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+    position: "relative",
+  },
+  name: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  address: {
+    fontSize: 25,
+  },
+  countryCode: {
+    position: "absolute",
+    bottom: 10,
+    right: 20,
+    fontSize: 18,
+    letterSpacing: 10,
+    fontWeight: "bold",
+  },
+  loans: {
+    fontSize: 30,
+    marginHorizontal: 20,
+    marginBottom: 10,
+    fontWeight: "bold",
+  },
+});
