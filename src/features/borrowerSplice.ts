@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { g_axios } from "../configurations/axios";
-import { Borrower } from "../models/Borrower";
+import { BorrowerWithLoan } from "../models/Borrower";
 
 export interface BorrowerState {
-  borrowers: Borrower[];
+  borrowers: BorrowerWithLoan[];
 }
 
 const initialState: BorrowerState = {
@@ -21,7 +21,7 @@ export const getBorrowers = createAsyncThunk(
       url: `${g_axios.defaults.baseURL}/borrowers`,
       responseType: "json",
     });
-    const data: Borrower[] = response.data;
+    const data: BorrowerWithLoan[] = response.data;
 
     console.log("Data: ", data);
 
@@ -44,8 +44,8 @@ const borrowerSlice = createSlice({
         console.log("Pending...");
       })
       .addCase(getBorrowers.fulfilled, (state, action) => {
-        const borrowers: Borrower[] = action.payload!.map(
-          (borrower: Borrower) => ({
+        const borrowers: BorrowerWithLoan[] = action.payload!.map(
+          (borrower: BorrowerWithLoan) => ({
             ...borrower,
           })
         );

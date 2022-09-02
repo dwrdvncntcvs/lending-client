@@ -1,4 +1,4 @@
-export interface Borrower {
+export interface BorrowerWithLoan {
   borrower: {
     address: string;
     firstName: string;
