@@ -34,11 +34,11 @@ export default function BorrowerDetails({ route }: Props) {
       <Text>Address: {borrower.borrower.address}</Text>
       <Text>Country Code: {borrower.borrower.countryCode}</Text>
 
-      <Text>Loan Details:</Text>
       <FlatList
         data={loan.loans}
         renderItem={({ item }) => (
           <View>
+            <Text>Loan Details: {item.id}</Text>
             <Text>Status: {item.status}</Text>
             <Text>Amount: {item.amount}</Text>
             <Text>Interest Rate: {item.interestRatePerMonth}</Text>

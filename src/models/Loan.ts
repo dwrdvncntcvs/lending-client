@@ -1,4 +1,5 @@
 export interface Loan {
+  id?: string;
   borrowerId?: string;
   amount?: number | null;
   termInMonths?: number | null;
