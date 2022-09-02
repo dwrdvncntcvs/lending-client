@@ -1,21 +1,23 @@
-import { ReactPropTypes } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Borrower } from "../models/Borrower";
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  GestureResponderEvent,
+} from "react-native";
+import { BorrowerWithLoan } from "../models/Borrower";
 import { convertDate } from "../utils/date";
 import { getCurrency } from "../utils/helper";
 
 interface CardProps {
-  borrower: Borrower;
+  borrower: BorrowerWithLoan;
+  onPress: (e: GestureResponderEvent) => void;
 }
 
-export default function Card({ borrower }: CardProps) {
+export default function Card({ borrower, onPress }: CardProps) {
   console.log(borrower);
 
   return (
-    <TouchableOpacity
-      style={styles.cardContainer}
-      onPress={() => console.log(borrower.borrower.id)}
-    >
+    <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
       {borrower?.loan?.amount && (
         <Text style={styles.date}>
           {convertDate(borrower.loan?.paymentStartDate!)} -{" "}

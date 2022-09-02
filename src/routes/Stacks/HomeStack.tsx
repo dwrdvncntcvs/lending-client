@@ -4,15 +4,16 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import { CreateBorrower, Home } from "../../screens";
+import { BorrowerDetails, CreateBorrower, Home } from "../../screens";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const { Navigator, Screen } = createNativeStackNavigator();
-
-type RootHomeProp = {
+export type HomeStackParamList = {
   Home: undefined;
   "Create Borrower": undefined;
+  "Borrower Details": { borrowerId: string; title: string };
 };
+
+const { Navigator, Screen } = createNativeStackNavigator<HomeStackParamList>();
 
 interface Props {
   onPress: (e: GestureResponderEvent) => void;
@@ -32,7 +33,9 @@ export default function HomeStack() {
       <Screen
         name="Home"
         component={Home}
-        options={({ navigation }: NativeStackScreenProps<RootHomeProp>) => ({
+        options={({
+          navigation,
+        }: NativeStackScreenProps<HomeStackParamList>) => ({
           headerRight: () => {
             return (
               <AddBorrowerButton
@@ -43,6 +46,13 @@ export default function HomeStack() {
         })}
       />
       <Screen name="Create Borrower" component={CreateBorrower} />
+      <Screen
+        name="Borrower Details"
+        component={BorrowerDetails}
+        options={({ navigation, route }) => ({
+          headerTitle: route.params.title,
+        })}
+      />
     </Navigator>
   );
 }

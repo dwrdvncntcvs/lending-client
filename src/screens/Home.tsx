@@ -1,12 +1,14 @@
 import { View, StyleSheet, FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Card } from "../components";
-import axios from "axios";
-import { Borrower } from "../models/Borrower";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import { getBorrowers } from "../features/borrowerSplice";
+import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 
-export default function Home() {
+type Prop = NativeStackScreenProps<HomeStackParamList, "Home">;
+
+export default function Home({ navigation }: Prop) {
   const state = useAppSelector((state) => state.borrower);
   const dispatch = useAppDispatch();
 
@@ -27,7 +29,15 @@ export default function Home() {
             marginBottom: index === state.borrowers.length ? 15 : 8,
           }}
         >
-          <Card borrower={item} />
+          <Card
+            borrower={item}
+            onPress={() =>
+              navigation.navigate("Borrower Details", {
+                borrowerId: item.borrower.id,
+                title: `${item.borrower.firstName}'s Details`,
+              })
+            }
+          />
         </View>
       )}
     />
