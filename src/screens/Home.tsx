@@ -19,8 +19,14 @@ export default function Home() {
     <FlatList
       style={styles.mainContainer}
       data={state.borrowers}
-      renderItem={({ item }) => (
-        <View style={{ marginHorizontal: 15, marginTop: 8, marginBottom: 8 }}>
+      renderItem={({ item, index }) => (
+        <View
+          style={{
+            marginHorizontal: 15,
+            marginTop: index === 0 ? 15 : 7,
+            marginBottom: index === state.borrowers.length ? 15 : 8,
+          }}
+        >
           <Card borrower={item} />
         </View>
       )}
