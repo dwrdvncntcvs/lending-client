@@ -9,21 +9,27 @@ interface CardProps {
 }
 
 export default function Card({ borrower }: CardProps) {
+  console.log(borrower);
+
   return (
     <TouchableOpacity
       style={styles.cardContainer}
       onPress={() => console.log(borrower.borrower.id)}
     >
-      <Text style={styles.date}>
-        {convertDate(borrower.loan.paymentStartDate)} -{" "}
-        {convertDate(borrower.loan.paymentEndDate)}
-      </Text>
+      {borrower?.loan?.amount && (
+        <Text style={styles.date}>
+          {convertDate(borrower.loan?.paymentStartDate!)} -{" "}
+          {convertDate(borrower.loan?.paymentEndDate!)}
+        </Text>
+      )}
       <Text style={styles.name}>
         {borrower.borrower.firstName} {borrower.borrower.lastName}
       </Text>
-      <Text style={styles.value}>
-        {getCurrency(borrower.borrower.countryCode)} {borrower.loan.amount}
-      </Text>
+      {borrower.loan?.amount && (
+        <Text style={styles.value}>
+          {getCurrency(borrower.borrower.countryCode)} {borrower.loan?.amount}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 }

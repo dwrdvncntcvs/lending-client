@@ -3,34 +3,22 @@ import React, { useEffect, useState } from "react";
 import { Card } from "../components";
 import axios from "axios";
 import { Borrower } from "../models/Borrower";
-
+import { useAppDispatch, useAppSelector } from "../configurations/hooks";
+import { getBorrowers } from "../features/borrowerSplice";
 
 export default function Home() {
-  const [borrowers, setBorrowers] = useState<Borrower[]>([]);
+  const state = useAppSelector((state) => state.borrower);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const getBorrowers = async () => {
-      try {
-        const response = await axios({
-          method: "GET",
-          url: "https://7b20-136-158-31-155.ngrok.io/borrowers",
-          responseType: "json",
-        });
-        const data = response.data;
-
-        setBorrowers(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    getBorrowers();
+    console.log("Entering Home page....");
+    dispatch(getBorrowers());
   }, []);
 
   return (
     <FlatList
       style={styles.mainContainer}
-      data={borrowers}
+      data={state.borrowers}
       renderItem={({ item }) => (
         <View style={{ marginHorizontal: 15, marginTop: 8, marginBottom: 8 }}>
           <Card borrower={item} />

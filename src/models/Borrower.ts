@@ -6,9 +6,9 @@ export interface Borrower {
     countryCode: string;
     id: string;
   };
-  loan: {
-    amount: number;
-    paymentEndDate: Date;
-    paymentStartDate: Date;
+  loan?: {
+    amount?: number;
+    paymentEndDate?: number;
+    paymentStartDate?: number;
   };
 }
