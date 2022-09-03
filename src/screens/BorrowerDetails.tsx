@@ -16,7 +16,7 @@ import { Loans } from "../components";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 
-export default function BorrowerDetails({ route }: Props) {
+export default function BorrowerDetails({ route, navigation }: Props) {
   const [loading, setLoading] = useState({ status: false, msg: "" });
 
   const { borrowerState, loanState } = useAppSelector((state) => state);
@@ -61,6 +61,7 @@ export default function BorrowerDetails({ route }: Props) {
         </Text>
       </View>
       <Text style={styles.loans}>Loans</Text>
+
       {loanState.loans.length < 1 ? (
         <View
           style={[
@@ -71,9 +72,20 @@ export default function BorrowerDetails({ route }: Props) {
           <Text>No Loans Found</Text>
         </View>
       ) : (
-        <Loans
-          loans={loanState.loans}
-          countryCode={borrowerState.borrower.countryCode!}
+        <FlatList
+          data={loanState.loans}
+          renderItem={({ item }) => (
+            <Loans
+              loan={item}
+              countryCode={borrowerState.borrower.countryCode!}
+              onPress={() =>
+                navigation.navigate("Loan Details", {
+                  loanId: item.id!,
+                  title: `${borrowerState.borrower.firstName!}'s Payments`,
+                })
+              }
+            />
+          )}
         />
       )}
     </View>

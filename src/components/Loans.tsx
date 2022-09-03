@@ -4,6 +4,7 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  GestureResponderEvent,
 } from "react-native";
 import React from "react";
 import { Loan } from "../models/Loan";
@@ -11,58 +12,48 @@ import { convertDate } from "../utils/date";
 import { getCurrency } from "../utils/helper";
 
 interface Props {
-  loans: Loan[];
+  loan: Loan;
   countryCode: string;
+  onPress: (e: GestureResponderEvent) => void;
 }
 
-export default function Loans({ loans, countryCode }: Props) {
+export default function Loans({ loan, countryCode, onPress }: Props) {
   return (
-    <FlatList
-      data={loans}
-      renderItem={({ item }) => (
-        <TouchableOpacity
-          style={styles.loanContainer}
-          onPress={() => {
-            console.log("Loan ID: ", item.id);
-          }}
-        >
-          <View
-            style={[
-              styles.statusBar,
-              {
-                backgroundColor:
-                  item.status === "active" ? "#5CB85C" : "#efac4e",
-              },
-            ]}
-          >
-            <Text style={styles.id}>ID: {item.id}</Text>
-          </View>
+    <TouchableOpacity style={styles.loanContainer} onPress={onPress}>
+      <View
+        style={[
+          styles.statusBar,
+          {
+            backgroundColor: loan.status === "active" ? "#5CB85C" : "#efac4e",
+          },
+        ]}
+      >
+        <Text style={styles.id}>ID: {loan.id}</Text>
+      </View>
 
-          <View style={styles.loanContent}>
-            <Text style={styles.amount}>
-              {getCurrency(countryCode)}
-              {item.amount}
+      <View style={styles.loanContent}>
+        <Text style={styles.amount}>
+          {getCurrency(countryCode)}
+          {loan.amount}
+        </Text>
+        <View style={styles.footerContent}>
+          <Text style={styles.date}>
+            {convertDate(loan.paymentStartDate!)} -{" "}
+            {convertDate(loan.paymentEndDate!)}
+          </Text>
+          <Text style={{ fontStyle: "italic" }}>
+            This loan is{" "}
+            <Text style={styles.subText}>
+              {loan.numberOfPayments} {getTermPayment(loan.termPayment!)}
+            </Text>{" "}
+            to pay with{" "}
+            <Text style={styles.subText}>
+              {loan.interestRatePerMonth}% interest.
             </Text>
-            <View style={styles.footerContent}>
-              <Text style={styles.date}>
-                {convertDate(item.paymentStartDate!)} -{" "}
-                {convertDate(item.paymentEndDate!)}
-              </Text>
-              <Text style={{ fontStyle: "italic" }}>
-                This loan is{" "}
-                <Text style={styles.subText}>
-                  {item.numberOfPayments} {getTermPayment(item.termPayment!)}
-                </Text>{" "}
-                to pay with{" "}
-                <Text style={styles.subText}>
-                  {item.interestRatePerMonth}% interest.
-                </Text>
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      )}
-    />
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 }
 

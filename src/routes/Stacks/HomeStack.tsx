@@ -4,13 +4,19 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import { BorrowerDetails, CreateBorrower, Home } from "../../screens";
+import {
+  BorrowerDetails,
+  CreateBorrower,
+  Home,
+  LoanDetails,
+} from "../../screens";
 import Icon from "react-native-vector-icons/Ionicons";
 
 export type HomeStackParamList = {
   Home: undefined;
   "Create Borrower": undefined;
   "Borrower Details": { borrowerId: string; title: string };
+  "Loan Details": { loanId: string; title: string };
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<HomeStackParamList>();
@@ -50,7 +56,14 @@ export default function HomeStack() {
       <Screen
         name="Borrower Details"
         component={BorrowerDetails}
-        options={({ navigation, route }) => ({
+        options={({ route }) => ({
+          headerTitle: route.params.title,
+        })}
+      />
+      <Screen
+        name="Loan Details"
+        component={LoanDetails}
+        options={({ route }) => ({
           headerTitle: route.params.title,
         })}
       />
