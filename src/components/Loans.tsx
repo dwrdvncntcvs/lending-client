@@ -20,7 +20,12 @@ export default function Loans({ loans, countryCode }: Props) {
     <FlatList
       data={loans}
       renderItem={({ item }) => (
-        <TouchableOpacity style={styles.loanContainer}>
+        <TouchableOpacity
+          style={styles.loanContainer}
+          onPress={() => {
+            console.log("Loan ID: ", item.id);
+          }}
+        >
           <View
             style={[
               styles.statusBar,
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
   loanContainer: {
     display: "flex",
     marginHorizontal: 15,
-    marginVertical: 5,
+    marginVertical: 10,
     backgroundColor: "white",
     borderRadius: 10,
     paddingTop: 25,

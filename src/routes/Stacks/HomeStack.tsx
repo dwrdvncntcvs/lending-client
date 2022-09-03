@@ -36,6 +36,7 @@ export default function HomeStack() {
         options={({
           navigation,
         }: NativeStackScreenProps<HomeStackParamList>) => ({
+          headerTitle: "Borrowers",
           headerRight: () => {
             return (
               <AddBorrowerButton

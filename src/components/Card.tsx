@@ -17,7 +17,6 @@ export default function Card({ borrower, onPress }: CardProps) {
 
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
-      <View style={styles.statusBar}></View>
       <Text style={styles.name}>
         {borrower.firstName} {borrower.lastName}
       </Text>
@@ -41,19 +40,10 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: "white",
   },
-  statusBar: {
-    width: "100%",
-    height: 15,
-    backgroundColor: "gray",
-    position: "absolute",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
   name: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: "bold",
-    marginTop: 10,
-    color: "gray",
+    color: "black",
     marginHorizontal: 20,
   },
 });

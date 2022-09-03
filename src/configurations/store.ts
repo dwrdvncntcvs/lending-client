@@ -4,8 +4,8 @@ import borrowerReducer from "../features/borrowerSplice";
 
 export const store = configureStore({
   reducer: {
-    borrower: borrowerReducer,
-    loan: loanReducer
+    borrowerState: borrowerReducer,
+    loanState: loanReducer
   },
 });
 

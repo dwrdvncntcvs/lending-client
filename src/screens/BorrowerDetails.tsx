@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 import { getBorrowerById } from "../features/borrowerSplice";
-import { getLoanRequest } from "../features/loanSplice";
+import { getLoansRequest } from "../features/loanSplice";
 import { Loans } from "../components";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
@@ -19,17 +19,20 @@ type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 export default function BorrowerDetails({ route }: Props) {
   const [loading, setLoading] = useState({ status: false, msg: "" });
 
-  const { borrower, loan } = useAppSelector((state) => state);
+  const { borrowerState, loanState } = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getData = async () => {
-      setLoading((prev) => ({ ...prev, status: true }));
-      setLoading((prev) => ({ ...prev, msg: "Getting Borrower Details..." }));
+      setLoading((prev) => ({
+        ...prev,
+        status: true,
+        msg: "Getting Borrower Details...",
+      }));
       await dispatch(getBorrowerById(route.params.borrowerId));
       setLoading((prev) => ({ ...prev, msg: "Getting Loan Details..." }));
-      await dispatch(getLoanRequest(route.params.borrowerId));
+      await dispatch(getLoansRequest(route.params.borrowerId));
       setLoading((prev) => ({ ...prev, status: false }));
     };
 
@@ -50,13 +53,15 @@ export default function BorrowerDetails({ route }: Props) {
     <View style={styles.mainContainer}>
       <View style={styles.borrowerContainer}>
         <Text style={styles.name}>
-          {borrower.borrower.firstName} {borrower.borrower.lastName}
+          {borrowerState.borrower.firstName} {borrowerState.borrower.lastName}
         </Text>
-        <Text style={styles.address}>{borrower.borrower.address}</Text>
-        <Text style={styles.countryCode}>{borrower.borrower.countryCode}</Text>
+        <Text style={styles.address}>{borrowerState.borrower.address}</Text>
+        <Text style={styles.countryCode}>
+          {borrowerState.borrower.countryCode}
+        </Text>
       </View>
       <Text style={styles.loans}>Loans</Text>
-      {loan.loans.length < 1 ? (
+      {loanState.loans.length < 1 ? (
         <View
           style={[
             styles.mainContainer,
@@ -67,8 +72,8 @@ export default function BorrowerDetails({ route }: Props) {
         </View>
       ) : (
         <Loans
-          loans={loan.loans}
-          countryCode={borrower.borrower.countryCode!}
+          loans={loanState.loans}
+          countryCode={borrowerState.borrower.countryCode!}
         />
       )}
     </View>
@@ -102,14 +107,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   address: {
-    fontSize: 25,
+    fontSize: 18,
   },
   countryCode: {
-    position: "absolute",
-    bottom: 10,
-    right: 20,
+    // position: "absolute",
+    // bottom: 10,
+    // right: 20,
     fontSize: 18,
-    letterSpacing: 10,
+    letterSpacing: 5,
     fontWeight: "bold",
   },
   loans: {

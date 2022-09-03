@@ -10,7 +10,7 @@ export interface LoanState {
   loan: Loan;
 }
 
-export const getLoanRequest = createAsyncThunk(
+export const getLoansRequest = createAsyncThunk(
   "loan/getLoan",
   async (borrowerId: string) => {
     const url = `${URL.lending}/loans/${borrowerId}`;
@@ -39,13 +39,13 @@ const loanSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(getLoanRequest.pending, (state) => {
+      .addCase(getLoansRequest.pending, (state) => {
         console.log("Pending...");
       })
-      .addCase(getLoanRequest.fulfilled, (state, action) => {
+      .addCase(getLoansRequest.fulfilled, (state, action) => {
         return { ...state, loans: action.payload };
       })
-      .addCase(getLoanRequest.rejected, (state, action) => {
+      .addCase(getLoansRequest.rejected, (state, action) => {
         console.log("Failed...");
         console.log(action);
         return state;

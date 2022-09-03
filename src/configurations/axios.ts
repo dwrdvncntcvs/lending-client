@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const g_axios = new axios.Axios({
-  baseURL: "https://5163-136-158-30-170.ngrok.io",
+  baseURL: "https://9502-136-158-30-170.ngrok.io",
 // baseURL: "http://localhost:3000"
 });

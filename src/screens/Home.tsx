@@ -9,7 +9,7 @@ import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 type Prop = NativeStackScreenProps<HomeStackParamList, "Home">;
 
 export default function Home({ navigation }: Prop) {
-  const state = useAppSelector((state) => state.borrower);
+  const { borrowerState } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -20,13 +20,13 @@ export default function Home({ navigation }: Prop) {
   return (
     <FlatList
       style={styles.mainContainer}
-      data={state.borrowers}
+      data={borrowerState.borrowers}
       renderItem={({ item, index }) => (
         <View
           style={{
-            marginHorizontal: 15,
-            marginTop: index === 0 ? 15 : 7,
-            marginBottom: index === state.borrowers.length ? 15 : 8,
+            marginHorizontal: 12,
+            marginTop: index === 0 ? 12 : 6,
+            marginBottom: index === borrowerState.borrowers.length ? 12 : 6,
           }}
         >
           <Card
