@@ -1,5 +1,12 @@
-import { View, Text, FlatList, StyleSheet, Button } from "react-native";
-import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
@@ -10,22 +17,36 @@ import { Loans } from "../components";
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 
 export default function BorrowerDetails({ route }: Props) {
+  const [loading, setLoading] = useState({ status: false, msg: "" });
+
   const { borrower, loan } = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getData = async () => {
+      setLoading((prev) => ({ ...prev, status: true }));
+      setLoading((prev) => ({ ...prev, msg: "Getting Borrower Details..." }));
       await dispatch(getBorrowerById(route.params.borrowerId));
+      setLoading((prev) => ({ ...prev, msg: "Getting Loan Details..." }));
       await dispatch(getLoanRequest(route.params.borrowerId));
+      setLoading((prev) => ({ ...prev, status: false }));
     };
 
     getData();
   }, []);
 
-  console.log("Loans: ", loan.loans);
-
-  return (
+  return loading.status ? (
+    <View
+      style={[
+        styles.mainContainer,
+        { justifyContent: "center", alignItems: "center" },
+      ]}
+    >
+      <Text>Loading please wait...</Text>
+      <Text>{loading.msg}</Text>
+    </View>
+  ) : (
     <View style={styles.mainContainer}>
       <View style={styles.borrowerContainer}>
         <Text style={styles.name}>
@@ -36,11 +57,19 @@ export default function BorrowerDetails({ route }: Props) {
       </View>
       <Text style={styles.loans}>Loans</Text>
       {loan.loans.length < 1 ? (
-        <View>
+        <View
+          style={[
+            styles.mainContainer,
+            { justifyContent: "flex-start", alignItems: "center" },
+          ]}
+        >
           <Text>No Loans Found</Text>
         </View>
       ) : (
-        <Loans loans={loan.loans} />
+        <Loans
+          loans={loan.loans}
+          countryCode={borrower.borrower.countryCode!}
+        />
       )}
     </View>
   );

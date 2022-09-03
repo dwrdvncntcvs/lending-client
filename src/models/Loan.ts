@@ -5,8 +5,8 @@ export interface Loan {
   termInMonths?: number | null;
   interestRatePerMonth?: number | null;
   termPayment?: string;
-  paymentStartDate?: Date | null;
-  paymentEndDate?: Date | null;
+  paymentStartDate?: Date;
+  paymentEndDate?: Date;
   numberOfPayments?: number | null;
   receivable?: number | null;
   status?: string;
