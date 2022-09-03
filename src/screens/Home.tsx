@@ -2,7 +2,7 @@ import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect } from "react";
 import { Card } from "../components";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
-import { getBorrowers } from "../features/borrowerSplice";
+import { getBorrowers } from "../features/borrowerSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 

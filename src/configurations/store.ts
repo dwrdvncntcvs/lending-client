@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { loanReducer } from "../features";
-import borrowerReducer from "../features/borrowerSplice";
+import { borrowerReducer, loanReducer } from "../features";
 
 export const store = configureStore({
   reducer: {
     borrowerState: borrowerReducer,
-    loanState: loanReducer
+    loanState: loanReducer,
   },
 });
 

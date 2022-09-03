@@ -10,8 +10,8 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
-import { getBorrowerById } from "../features/borrowerSplice";
-import { getLoansRequest } from "../features/loanSplice";
+import { getBorrowerById } from "../features/borrowerSlice";
+import { getLoansRequest } from "../features/loanSlice";
 import { Loans } from "../components";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
