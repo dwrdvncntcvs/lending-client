@@ -34,30 +34,26 @@ export default function Loans({ loans, countryCode }: Props) {
           </View>
 
           <View style={styles.loanContent}>
-            <Text style={styles.date}>
-              {convertDate(item.paymentStartDate!)} -{" "}
-              {convertDate(item.paymentEndDate!)}
-            </Text>
             <Text style={styles.amount}>
               {getCurrency(countryCode)}
               {item.amount}
             </Text>
-            <Text
-              style={{
-                fontStyle: "italic",
-                alignSelf: "flex-end",
-                color: "gray",
-              }}
-            >
-              This loan is{" "}
-              <Text style={styles.subText}>
-                {item.numberOfPayments} {getTermPayment(item.termPayment!)}
-              </Text>{" "}
-              to pay with{" "}
-              <Text style={styles.subText}>
-                {item.interestRatePerMonth}% interest.
+            <View style={styles.footerContent}>
+              <Text style={styles.date}>
+                {convertDate(item.paymentStartDate!)} -{" "}
+                {convertDate(item.paymentEndDate!)}
               </Text>
-            </Text>
+              <Text style={{ fontStyle: "italic" }}>
+                This loan is{" "}
+                <Text style={styles.subText}>
+                  {item.numberOfPayments} {getTermPayment(item.termPayment!)}
+                </Text>{" "}
+                to pay with{" "}
+                <Text style={styles.subText}>
+                  {item.interestRatePerMonth}% interest.
+                </Text>
+              </Text>
+            </View>
           </View>
         </TouchableOpacity>
       )}
@@ -102,7 +98,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   date: {
-    fontSize: 18,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  footerContent: {
+    alignSelf: "flex-end",
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
   amount: {
     fontSize: 50,
