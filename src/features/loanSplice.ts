@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { g_axios } from "../configurations/axios";
 import { Loan } from "../models/Loan";
+import { getRequest } from "../services/httpService";
+import { URL } from "../utils/variables";
 
 export interface LoanState {
   loans: Loan[];
@@ -11,11 +13,8 @@ export interface LoanState {
 export const getLoanRequest = createAsyncThunk(
   "loan/getLoan",
   async (borrowerId: string) => {
-    const response = await axios({
-      method: "GET",
-      baseURL: `${g_axios.defaults.baseURL}/loans/${borrowerId}`,
-      responseType: "json",
-    });
+    const url = `${URL.lending}/loans/${borrowerId}`;
+    const response = await getRequest(url);
 
     const data: Loan[] = response.data;
     console.log("Loan Data: ", data);
