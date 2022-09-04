@@ -2,12 +2,13 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { g_axios } from "../configurations/axios";
 import { Borrower, BorrowerWithLoan } from "../models/Borrower";
+import { LoanCount } from "../models/Loan";
 import { getRequest } from "../services/httpService";
 import { URL } from "../utils/variables";
 
 export interface BorrowerState {
   borrowers: Borrower[];
-  borrower: Borrower;
+  borrower: Borrower & LoanCount;
 }
 
 const initialState: BorrowerState = {

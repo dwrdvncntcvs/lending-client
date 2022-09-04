@@ -6,9 +6,10 @@ import {
   View,
 } from "react-native";
 import { Borrower } from "../models/Borrower";
+import { LoanCount } from "../models/Loan";
 
 interface CardProps {
-  borrower: Borrower;
+  borrower: Borrower & LoanCount;
   onPress: (e: GestureResponderEvent) => void;
 }
 
@@ -20,6 +21,11 @@ export default function Card({ borrower, onPress }: CardProps) {
       <Text style={styles.name}>
         {borrower.firstName} {borrower.lastName}
       </Text>
+      {borrower.loanCount! > 0 && (
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{borrower.loanCount}</Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 }
@@ -32,6 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 20,
     position: "relative",
+    justifyContent: "space-between",
     zIndex: -1,
     shadowOffset: { width: -2, height: 1 },
     shadowColor: "black",
@@ -39,11 +46,25 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
     backgroundColor: "white",
+    paddingHorizontal: 20,
+    alignItems: "center",
   },
   name: {
     fontSize: 25,
     fontWeight: "bold",
     color: "black",
-    marginHorizontal: 20,
+  },
+  badge: {
+    display: "flex",
+    backgroundColor: "gray",
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+  },
+  badgeText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });

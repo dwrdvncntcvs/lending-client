@@ -11,3 +11,7 @@ export interface Loan {
   receivable?: number | null;
   status?: string;
 }
+
+export interface LoanCount {
+  loanCount?: number;
+}
