@@ -1,23 +1,32 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect } from "react";
-import { Card } from "../components";
+import { Card, Loading } from "../components";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import { getBorrowers } from "../features/borrowerSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
+import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
 
 type Prop = NativeStackScreenProps<HomeStackParamList, "Home">;
 
 export default function Home({ navigation }: Prop) {
-  const { borrowerState } = useAppSelector((state) => state);
+  const { borrowerState, loadingState } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log("Entering Home page....");
-    dispatch(getBorrowers());
+    const getData = async () => {
+      dispatch(setLoadingStatus(true));
+      dispatch(setLoadingMessage("Getting Borrowers..."));
+      await dispatch(getBorrowers());
+      dispatch(setLoadingStatus(false));
+    };
+
+    getData();
   }, []);
 
-  return (
+  return loadingState.status ? (
+    <Loading message={loadingState.message} />
+  ) : (
     <FlatList
       style={styles.mainContainer}
       data={borrowerState.borrowers}
