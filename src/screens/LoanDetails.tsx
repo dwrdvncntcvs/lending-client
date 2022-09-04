@@ -9,6 +9,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 import { convertDate } from "../utils/date";
 import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
+import { Loading } from "../components";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 
@@ -32,15 +33,7 @@ export default function LoanDetails({ route }: Props) {
   console.log("Loan Payment State: ", loanPaymentState.totalPayments);
 
   return loadingState.status ? (
-    <View
-      style={[
-        styles.mainContainer,
-        { justifyContent: "center", alignItems: "center" },
-      ]}
-    >
-      <Text>Loading please wait...</Text>
-      <Text>{loadingState.message}</Text>
-    </View>
+    <Loading message={loadingState.message} />
   ) : (
     <View style={styles.mainContainer}>
       <FlatList
