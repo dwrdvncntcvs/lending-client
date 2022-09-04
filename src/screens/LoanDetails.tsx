@@ -10,11 +10,14 @@ import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 import { convertDate } from "../utils/date";
 import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
 import { Loading } from "../components";
+import { getCurrency } from "../utils/helper";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 
 export default function LoanDetails({ route }: Props) {
-  const { loanPaymentState, loadingState } = useAppSelector((state) => state);
+  const { borrowerState, loanPaymentState, loadingState } = useAppSelector(
+    (state) => state
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -42,14 +45,16 @@ export default function LoanDetails({ route }: Props) {
         renderItem={({ item }) => (
           <View style={styles.cardContainer}>
             <Text>{convertDate(item.expectedPaymentDate)}</Text>
-            <Text>Amount: {item.amount.toFixed(2)}</Text>
+            <Text>Amount: {getCurrency(borrowerState.borrower.countryCode!)}{item.amount.toFixed(2)}</Text>
           </View>
         )}
       />
       <View style={styles.footerContainer}>
         <Text>Total Payment: </Text>
         <Text style={styles.amountText}>
+          {getCurrency(borrowerState.borrower.countryCode!)}
           {loanPaymentState.totalPayments.paidLoans?.total.toFixed(2)} /{" "}
+          {getCurrency(borrowerState.borrower.countryCode!)}
           {loanPaymentState.totalPayments.totalLoans?.total.toFixed(2)}
         </Text>
       </View>
