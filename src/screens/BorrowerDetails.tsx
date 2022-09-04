@@ -13,33 +13,31 @@ import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 import { getBorrowerById } from "../features/borrowerSlice";
 import { getLoansRequest } from "../features/loanSlice";
 import { Loans } from "../components";
+import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 
 export default function BorrowerDetails({ route, navigation }: Props) {
-  const [loading, setLoading] = useState({ status: false, msg: "" });
-
-  const { borrowerState, loanState } = useAppSelector((state) => state);
+  const { borrowerState, loanState, loadingState } = useAppSelector(
+    (state) => state
+  );
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getData = async () => {
-      setLoading((prev) => ({
-        ...prev,
-        status: true,
-        msg: "Getting Borrower Details...",
-      }));
+      dispatch(setLoadingStatus(true));
+      dispatch(setLoadingMessage("Getting Borrower Details..."));
       await dispatch(getBorrowerById(route.params.borrowerId));
-      setLoading((prev) => ({ ...prev, msg: "Getting Loan Details..." }));
+      dispatch(setLoadingMessage("Getting Loan Details..."));
       await dispatch(getLoansRequest(route.params.borrowerId));
-      setLoading((prev) => ({ ...prev, status: false }));
+      dispatch(setLoadingStatus(false));
     };
 
     getData();
   }, []);
 
-  return loading.status ? (
+  return loadingState.status ? (
     <View
       style={[
         styles.mainContainer,
@@ -47,7 +45,7 @@ export default function BorrowerDetails({ route, navigation }: Props) {
       ]}
     >
       <Text>Loading please wait...</Text>
-      <Text>{loading.msg}</Text>
+      <Text>{loadingState.message}</Text>
     </View>
   ) : (
     <View style={styles.mainContainer}>
