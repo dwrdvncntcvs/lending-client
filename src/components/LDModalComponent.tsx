@@ -12,13 +12,20 @@ import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
 import { convertDate } from "../utils/date";
+import { LoanModalData } from "../models/LoanPayment";
+import { getCurrency } from "../utils/helper";
 
 type Props = {
   onClose?: (e: GestureResponderEvent) => void;
   height?: number | string;
+  loanData: LoanModalData;
 };
 
-export default function LDModalComponent({ onClose, height = "auto" }: Props) {
+export default function LDModalComponent({
+  onClose,
+  height = "auto",
+  loanData,
+}: Props) {
   const [reason, setReason] = useState("");
   const [date, setDate] = useState<Date>(new Date());
 
@@ -32,6 +39,11 @@ export default function LDModalComponent({ onClose, height = "auto" }: Props) {
 
   return (
     <View style={[styles.modalContainer, { height }]}>
+      <Text>{convertDate(loanData.date)}</Text>
+      <Text>
+        {getCurrency(loanData.countryCode)}
+        {loanData.amount}
+      </Text>
       {input.map(({ placeholder, action, value }, i) => (
         <View style={styles.textContainer} key={i}>
           <TextInput
@@ -42,7 +54,8 @@ export default function LDModalComponent({ onClose, height = "auto" }: Props) {
           />
         </View>
       ))}
-      <TouchableOpacity style={styles.textContainer}
+      <TouchableOpacity
+        style={styles.textContainer}
         onPress={() =>
           DateTimePickerAndroid.open({
             value: date,

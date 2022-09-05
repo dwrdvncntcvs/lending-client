@@ -2,6 +2,7 @@ export interface LoanPayment {
   loanId: string;
   paymentCounter: number;
   amount: number;
+  id: string;
   expectedPaymentDate: Date;
   actualPaymentDate: Date;
   createdDate: Date;
@@ -28,3 +29,10 @@ export interface TotalLoans {
   total: number;
   count: number;
 }
+
+export type LoanModalData = {
+  id: string;
+  date: Date;
+  amount: number;
+  countryCode: string;
+};

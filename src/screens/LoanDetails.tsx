@@ -14,11 +14,18 @@ import {
   LoanDetailsCard,
   LoanDetailsFooter,
 } from "../components";
+import { LoanModalData } from "../models/LoanPayment";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 
 export default function LoanDetails({ route }: Props) {
   const [show, setShow] = useState(false);
+  const [data, setData] = useState<LoanModalData>({
+    id: "",
+    date: new Date(),
+    amount: 0,
+    countryCode: "",
+  });
 
   const { borrowerState, loanPaymentState, loadingState } = useAppSelector(
     (state) => state
@@ -38,8 +45,6 @@ export default function LoanDetails({ route }: Props) {
     getData();
   }, []);
 
-  console.log("Loan Payment State: ", loanPaymentState.totalPayments);
-
   return loadingState.status ? (
     <Loading message={loadingState.message} />
   ) : (
@@ -51,7 +56,15 @@ export default function LoanDetails({ route }: Props) {
           <LoanDetailsCard
             borrower={borrowerState.borrower}
             loanPayment={item}
-            onPress={() => setShow((prev) => !prev)}
+            onPress={() => {
+              setData({
+                id: item.id,
+                amount: item.amount,
+                date: item.expectedPaymentDate,
+                countryCode: borrowerState.borrower.countryCode!,
+              });
+              setShow((prev) => !prev);
+            }}
           />
         )}
       />
@@ -72,6 +85,7 @@ export default function LoanDetails({ route }: Props) {
           ]}
         >
           <LDModalComponent
+            loanData={data}
             onClose={() => setShow((prev) => !prev)}
             height={500}
           />
