@@ -12,7 +12,12 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 import { getBorrowerById } from "../features/borrowerSlice";
 import { getLoansRequest } from "../features/loanSlice";
-import { Loading, Loans } from "../components";
+import {
+  BorrowerDetailsComponent,
+  Loading,
+  Loans,
+  NotFound,
+} from "../components";
 import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
@@ -41,26 +46,11 @@ export default function BorrowerDetails({ route, navigation }: Props) {
     <Loading message={loadingState.message} />
   ) : (
     <View style={styles.mainContainer}>
-      <View style={styles.borrowerContainer}>
-        <Text style={styles.name}>
-          {borrowerState.borrower.firstName} {borrowerState.borrower.lastName}
-        </Text>
-        <Text style={styles.address}>{borrowerState.borrower.address}</Text>
-        <Text style={styles.countryCode}>
-          {borrowerState.borrower.countryCode}
-        </Text>
-      </View>
+      <BorrowerDetailsComponent borrower={borrowerState.borrower} />
       <Text style={styles.loans}>Loans</Text>
 
       {loanState.loans.length < 1 ? (
-        <View
-          style={[
-            styles.mainContainer,
-            { justifyContent: "flex-start", alignItems: "center" },
-          ]}
-        >
-          <Text>No Loans Found</Text>
-        </View>
+        <NotFound message="No Loans Found" />
       ) : (
         <FlatList
           data={loanState.loans}
