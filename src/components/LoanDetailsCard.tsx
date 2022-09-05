@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  GestureResponderEvent,
+} from "react-native";
 import React from "react";
 import { convertDate } from "../utils/date";
 import { LoanPayment } from "../models/LoanPayment";
@@ -8,17 +14,22 @@ import { Borrower } from "../models/Borrower";
 type Props = {
   loanPayment: LoanPayment;
   borrower: Borrower;
+  onPress: (e: GestureResponderEvent) => void;
 };
 
-export default function LoanDetailsCard({ loanPayment, borrower }: Props) {
+export default function LoanDetailsCard({
+  loanPayment,
+  borrower,
+  onPress,
+}: Props) {
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
       <Text>{convertDate(loanPayment.expectedPaymentDate)}</Text>
       <Text>
         Amount: {getCurrency(borrower.countryCode!)}
         {loanPayment.amount.toFixed(2)}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

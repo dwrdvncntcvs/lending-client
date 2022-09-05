@@ -1,5 +1,5 @@
-import { View, FlatList, StyleSheet } from "react-native";
-import React, { useEffect } from "react";
+import { View, FlatList, StyleSheet, Modal, Text, Button } from "react-native";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import {
   getLoanPayments,
@@ -8,11 +8,18 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../routes/Stacks/HomeStack";
 import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
-import { Loading, LoanDetailsCard, LoanDetailsFooter } from "../components";
+import {
+  LDModalComponent,
+  Loading,
+  LoanDetailsCard,
+  LoanDetailsFooter,
+} from "../components";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 
 export default function LoanDetails({ route }: Props) {
+  const [show, setShow] = useState(false);
+
   const { borrowerState, loanPaymentState, loadingState } = useAppSelector(
     (state) => state
   );
@@ -44,6 +51,7 @@ export default function LoanDetails({ route }: Props) {
           <LoanDetailsCard
             borrower={borrowerState.borrower}
             loanPayment={item}
+            onPress={() => setShow((prev) => !prev)}
           />
         )}
       />
@@ -51,6 +59,24 @@ export default function LoanDetails({ route }: Props) {
         borrower={borrowerState.borrower}
         totalPayment={loanPaymentState.totalPayments}
       />
+      <Modal
+        animationType="slide"
+        visible={show}
+        onRequestClose={() => setShow((prev) => !prev)}
+        transparent={true}
+      >
+        <View
+          style={[
+            styles.mainContainer,
+            { backgroundColor: "rgba(0, 0, 0, .1)" },
+          ]}
+        >
+          <LDModalComponent
+            onClose={() => setShow((prev) => !prev)}
+            height={500}
+          />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -61,5 +87,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: "100%",
     width: "100%",
+    position: "relative",
   },
 });

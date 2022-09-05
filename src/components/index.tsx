@@ -6,3 +6,4 @@ export { default as LoanDetailsFooter } from "./LoanDetailsFooter";
 export { default as LoanDetailsCard } from "./LoanDetailsCard";
 export { default as BorrowerDetailsComponent } from "./BorrowerDetailsComponent";
 export { default as NotFound } from "./NotFound";
+export { default as LDModalComponent } from "./LDModalComponent";
