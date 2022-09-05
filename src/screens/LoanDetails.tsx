@@ -1,5 +1,5 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, FlatList, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import {
   getLoanPayments,
