@@ -14,16 +14,16 @@ import {
   LoanDetailsCard,
   LoanDetailsFooter,
 } from "../components";
-import { PaymentData } from "../models/LoanPayment";
+import { LoanPaymentData } from "../models/LoanPayment";
 import { setModalStatus } from "../features/modalSlice";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 
 export default function LoanDetails({ route }: Props) {
-  const [data, setData] = useState<PaymentData>({
+  const [data, setData] = useState<LoanPaymentData>({
     id: "",
-    actualPaymentDate: new Date(),
-    actualAmountReceived: 0,
+    expectedPaymentDate: new Date(),
+    amount: 0,
     countryCode: "",
   });
 
@@ -60,8 +60,8 @@ export default function LoanDetails({ route }: Props) {
             onPress={() => {
               setData({
                 id: item.id,
-                actualAmountReceived: item.amount,
-                actualPaymentDate: item.expectedPaymentDate,
+                amount: item.amount,
+                expectedPaymentDate: item.expectedPaymentDate,
                 countryCode: borrowerState.borrower.countryCode!,
               });
               dispatch(setModalStatus(true));

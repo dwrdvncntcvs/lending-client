@@ -9,24 +9,27 @@ import {
 import React, { useEffect, useState } from "react";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { convertDate } from "../utils/date";
-import { PaymentData } from "../models/LoanPayment";
+import { LoanPaymentData, PaymentData } from "../models/LoanPayment";
 import { getCurrency } from "../utils/helper";
 import { useAppDispatch, useAppSelector } from "../configurations/hooks";
 import { setModalStatus } from "../features/modalSlice";
 import { updateLoanPayment } from "../features/loanPaymentSlice";
-import { TabRouter } from "@react-navigation/native";
 
 type Props = {
   height?: number | string;
-  paymentData: PaymentData;
+  paymentData: LoanPaymentData;
   loanId: string;
 };
 
-const checkPaymentDate = (date: Date, loanDate: Date) => {
+const checkPaymentDate = (date: Date, loanDate: Date): boolean => {
   const date1 = new Date(date);
   const date2 = new Date(loanDate);
 
   return date1.toDateString() !== date2.toDateString() ? true : false;
+};
+
+const checkPaymentAmount = (amount: number, loanAmount: number): boolean => {
+  return +amount !== +loanAmount ? true : false;
 };
 
 export default function LDModalComponent({
@@ -36,7 +39,7 @@ export default function LDModalComponent({
 }: Props) {
   const [reason, setReason] = useState("");
   const [amount, setAmount] = useState("");
-  const [late, setLate] = useState(false);
+  const [show, setShow] = useState(false);
   const [date, setDate] = useState<Date>(new Date());
 
   const dispatch = useAppDispatch();
@@ -45,11 +48,14 @@ export default function LDModalComponent({
     {
       shown: true,
       placeholder: "Amount of Payment",
-      action: (text: string) => setAmount(text.replace(/[^0-9\.]/g, "")),
+      action: (text: string) => {
+        setShow(checkPaymentAmount(+amount, paymentData.amount));
+        setAmount(text.replace(/[^0-9\.]/g, ""));
+      },
       value: amount,
     },
     {
-      shown: late,
+      shown: show,
       placeholder: "Reason (Optional)",
       action: (text: string) => setReason(text),
       value: reason,
@@ -57,8 +63,11 @@ export default function LDModalComponent({
   ];
 
   useEffect(() => {
-    setLate(checkPaymentDate(date, paymentData.actualPaymentDate));
-  }, []);
+    const condition =
+      checkPaymentDate(date, paymentData.expectedPaymentDate) ||
+      checkPaymentAmount(+amount, paymentData.amount);
+    setShow(condition);
+  }, [amount, date]);
 
   const saveUpdate = async () => {
     const data: PaymentData = {
@@ -79,10 +88,10 @@ export default function LDModalComponent({
 
   return (
     <View style={[styles.modalContainer, { height }]}>
-      <Text>{convertDate(paymentData.actualPaymentDate)}</Text>
+      <Text>{convertDate(paymentData.expectedPaymentDate)}</Text>
       <Text>
         {getCurrency(paymentData.countryCode!)}
-        {paymentData.actualAmountReceived}
+        {paymentData.amount}
       </Text>
       {input.map(
         ({ placeholder, action, value, shown }, i) =>
@@ -103,7 +112,6 @@ export default function LDModalComponent({
           DateTimePickerAndroid.open({
             value: date,
             onChange: (e, date) => {
-              setLate(checkPaymentDate(date!, paymentData.actualPaymentDate));
               setDate(date!);
             },
             mode: "date",

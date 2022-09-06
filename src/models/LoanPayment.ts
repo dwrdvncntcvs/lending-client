@@ -37,3 +37,10 @@ export type PaymentData = {
   actualAmountReceived: number;
   countryCode?: string;
 };
+
+export type LoanPaymentData = {
+  id: string;
+  countryCode?:string;
+  amount: number;
+  expectedPaymentDate: Date;
+}
