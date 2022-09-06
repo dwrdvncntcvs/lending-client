@@ -14,22 +14,21 @@ import {
   LoanDetailsCard,
   LoanDetailsFooter,
 } from "../components";
-import { LoanModalData } from "../models/LoanPayment";
+import { PaymentData } from "../models/LoanPayment";
+import { setModalStatus } from "../features/modalSlice";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 
 export default function LoanDetails({ route }: Props) {
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState<LoanModalData>({
+  const [data, setData] = useState<PaymentData>({
     id: "",
-    date: new Date(),
-    amount: 0,
+    actualPaymentDate: new Date(),
+    actualAmountReceived: 0,
     countryCode: "",
   });
 
-  const { borrowerState, loanPaymentState, loadingState } = useAppSelector(
-    (state) => state
-  );
+  const { borrowerState, loanPaymentState,loanState, loadingState, modalState } =
+    useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -42,8 +41,10 @@ export default function LoanDetails({ route }: Props) {
       dispatch(setLoadingStatus(false));
     };
 
+    console.log("LOAN ID: ", route.params.loanId);
+
     getData();
-  }, []);
+  }, [loanState.loans]);
 
   return loadingState.status ? (
     <Loading message={loadingState.message} />
@@ -59,11 +60,11 @@ export default function LoanDetails({ route }: Props) {
             onPress={() => {
               setData({
                 id: item.id,
-                amount: item.amount,
-                date: item.expectedPaymentDate,
+                actualAmountReceived: item.amount,
+                actualPaymentDate: item.expectedPaymentDate,
                 countryCode: borrowerState.borrower.countryCode!,
               });
-              setShow((prev) => !prev);
+              dispatch(setModalStatus(true));
             }}
           />
         )}
@@ -74,8 +75,8 @@ export default function LoanDetails({ route }: Props) {
       />
       <Modal
         animationType="slide"
-        visible={show}
-        onRequestClose={() => setShow((prev) => !prev)}
+        visible={modalState.status}
+        onRequestClose={() => dispatch(setModalStatus(false))}
         transparent={true}
       >
         <View
@@ -84,10 +85,7 @@ export default function LoanDetails({ route }: Props) {
             { backgroundColor: "rgba(0, 0, 0, .1)" },
           ]}
         >
-          <LDModalComponent
-            loanData={data}
-            onClose={() => setShow((prev) => !prev)}
-          />
+          <LDModalComponent paymentData={data} loanId={route.params.loanId} />
         </View>
       </Modal>
     </View>

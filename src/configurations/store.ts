@@ -4,6 +4,7 @@ import {
   loadingReducer,
   loanPaymentReducer,
   loanReducer,
+  modalReducer,
 } from "../features";
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     loanState: loanReducer,
     loanPaymentState: loanPaymentReducer,
     loadingState: loadingReducer,
+    modalState: modalReducer
   },
 });
 

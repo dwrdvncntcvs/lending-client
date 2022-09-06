@@ -30,9 +30,10 @@ export interface TotalLoans {
   count: number;
 }
 
-export type LoanModalData = {
+export type PaymentData = {
   id: string;
-  date: Date;
-  amount: number;
-  countryCode: string;
+  comment?: string;
+  actualPaymentDate: Date;
+  actualAmountReceived: number;
+  countryCode?: string;
 };
