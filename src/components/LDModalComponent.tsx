@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
@@ -21,21 +21,51 @@ type Props = {
   loanData: LoanModalData;
 };
 
+const checkPaymentDate = (date: Date, loanDate: Date) => {
+  const date1 = new Date(date);
+  const date2 = new Date(loanDate);
+
+  return date1.toDateString() !== date2.toDateString() ? true : false;
+};
+
 export default function LDModalComponent({
   onClose,
   height = "auto",
   loanData,
 }: Props) {
   const [reason, setReason] = useState("");
+  const [amount, setAmount] = useState("");
+  const [late, setLate] = useState(false);
   const [date, setDate] = useState<Date>(new Date());
 
   const input = [
     {
+      shown: true,
+      placeholder: "Amount of Payment",
+      action: (text: string) => setAmount(text.replace(/[^0-9\.]/g, "")),
+      value: amount,
+    },
+    {
+      shown: late,
       placeholder: "Reason (Optional)",
       action: (text: string) => setReason(text),
       value: reason,
     },
   ];
+
+  useEffect(() => {
+    setLate(checkPaymentDate(date, loanData.date));
+  }, []);
+
+  const saveUpdate = () => {
+    console.log("Reason: ", reason);
+    console.log("Amount to pay: ", +amount);
+    console.log("Date of payment: ", date);
+
+    setDate(new Date());
+    setAmount("");
+    setReason("");
+  };
 
   return (
     <View style={[styles.modalContainer, { height }]}>
@@ -44,22 +74,28 @@ export default function LDModalComponent({
         {getCurrency(loanData.countryCode)}
         {loanData.amount}
       </Text>
-      {input.map(({ placeholder, action, value }, i) => (
-        <View style={styles.textContainer} key={i}>
-          <TextInput
-            style={styles.textInput}
-            placeholder={placeholder}
-            onChangeText={action}
-            value={value}
-          />
-        </View>
-      ))}
+      {input.map(
+        ({ placeholder, action, value, shown }, i) =>
+          shown && (
+            <View style={styles.textContainer} key={i}>
+              <TextInput
+                style={styles.textInput}
+                placeholder={placeholder}
+                onChangeText={action}
+                value={value}
+              />
+            </View>
+          )
+      )}
       <TouchableOpacity
         style={styles.textContainer}
         onPress={() =>
           DateTimePickerAndroid.open({
             value: date,
-            onChange: (e, date) => setDate(date!),
+            onChange: (e, date) => {
+              setLate(checkPaymentDate(date!, loanData.date));
+              setDate(date!);
+            },
             mode: "date",
           })
         }
@@ -74,7 +110,9 @@ export default function LDModalComponent({
         }}
       >
         <Button title="Close" onPress={onClose} />
-        <Button title="Save" onPress={onClose} />
+        <Button title="Save" onPress={() => {
+          saveUpdate();
+        }} />
       </View>
     </View>
   );

@@ -87,7 +87,6 @@ export default function LoanDetails({ route }: Props) {
           <LDModalComponent
             loanData={data}
             onClose={() => setShow((prev) => !prev)}
-            height={500}
           />
         </View>
       </Modal>
