@@ -11,25 +11,18 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { convertDate } from "../utils/date";
 import { LoanPaymentData, PaymentData } from "../models/LoanPayment";
 import { getCurrency } from "../utils/helper";
-import { useAppDispatch, useAppSelector } from "../configurations/hooks";
+import { useAppDispatch } from "../configurations/hooks";
 import { setModalStatus } from "../features/modalSlice";
 import { updateLoanPayment } from "../features/loanPaymentSlice";
+import {
+  checkPaymentAmount,
+  checkPaymentDate,
+} from "../services/validationService";
 
 type Props = {
   height?: number | string;
   paymentData: LoanPaymentData;
   loanId: string;
-};
-
-const checkPaymentDate = (date: Date, loanDate: Date): boolean => {
-  const date1 = new Date(date);
-  const date2 = new Date(loanDate);
-
-  return date1.toDateString() !== date2.toDateString() ? true : false;
-};
-
-const checkPaymentAmount = (amount: number, loanAmount: number): boolean => {
-  return +amount !== +loanAmount ? true : false;
 };
 
 export default function LDModalComponent({
