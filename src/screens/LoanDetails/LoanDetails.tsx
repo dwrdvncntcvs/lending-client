@@ -11,10 +11,10 @@ import {
   setLoadingMessage,
   setLoadingStatus,
 } from "../../features/loadingSlice";
-import { Loading } from "../../components";
 import { LoanPaymentData } from "../../models/LoanPayment";
 import { setModalStatus } from "../../features/modalSlice";
 import { LoanCard, LoanModal, LoanTotal } from "../../components/LoanDetails";
+import { Loading } from "../../components/global";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 

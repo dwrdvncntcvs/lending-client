@@ -5,12 +5,13 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../../routes/Stacks/HomeStack";
 import { getBorrowerById } from "../../features/borrowerSlice";
 import { getLoansRequest } from "../../features/loanSlice";
-import { Loading, NotFound } from "../../components";
+import { NotFound } from "../../components";
 import {
   setLoadingMessage,
   setLoadingStatus,
 } from "../../features/loadingSlice";
 import { DetailsComponent, Loans } from "../../components/BorrowerDetails";
+import { Loading } from "../../components/global";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 

@@ -1,6 +1,5 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect } from "react";
-import { Loading } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../configurations/hooks";
 import { getBorrowers } from "../../features/borrowerSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
@@ -10,6 +9,7 @@ import {
   setLoadingStatus,
 } from "../../features/loadingSlice";
 import { BorrowerCard } from "../../components/Home";
+import { Loading } from "../../components/global";
 
 type Prop = NativeStackScreenProps<HomeStackParamList, "Home">;
 
