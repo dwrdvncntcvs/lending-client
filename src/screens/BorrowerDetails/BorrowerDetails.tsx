@@ -10,7 +10,7 @@ import {
   setLoadingMessage,
   setLoadingStatus,
 } from "../../features/loadingSlice";
-import { DetailsComponent, Loans } from "./components";
+import { DetailsComponent, Loans } from "../../components/BorrowerDetails";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 
