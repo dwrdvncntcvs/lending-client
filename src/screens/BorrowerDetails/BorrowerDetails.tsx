@@ -5,13 +5,12 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../../routes/Stacks/HomeStack";
 import { getBorrowerById } from "../../features/borrowerSlice";
 import { getLoansRequest } from "../../features/loanSlice";
+import { Loading, NotFound } from "../../components";
 import {
-  BorrowerDetailsComponent,
-  Loading,
-  Loans,
-  NotFound,
-} from "../../components";
-import { setLoadingMessage, setLoadingStatus } from "../../features/loadingSlice";
+  setLoadingMessage,
+  setLoadingStatus,
+} from "../../features/loadingSlice";
+import { DetailsComponent, Loans } from "./components";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 
@@ -39,7 +38,7 @@ export default function BorrowerDetails({ route, navigation }: Props) {
     <Loading message={loadingState.message} />
   ) : (
     <View style={styles.mainContainer}>
-      <BorrowerDetailsComponent borrower={borrowerState.borrower} />
+      <DetailsComponent borrower={borrowerState.borrower} />
       <Text style={styles.loans}>Loans</Text>
 
       {loanState.loans.length < 1 ? (

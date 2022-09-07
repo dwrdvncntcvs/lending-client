@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import { Borrower } from "../models/Borrower";
+import { Borrower } from "../../../../models/Borrower";
 
 type Props = {
   borrower: Borrower;
 };
 
-export default function BorrowerDetailsComponent({ borrower }: Props) {
+export default function DetailsComponent({ borrower }: Props) {
   return (
     <View style={styles.borrowerContainer}>
       <Text style={styles.name}>

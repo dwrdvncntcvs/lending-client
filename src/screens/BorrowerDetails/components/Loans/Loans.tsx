@@ -7,9 +7,9 @@ import {
   GestureResponderEvent,
 } from "react-native";
 import React from "react";
-import { Loan } from "../models/Loan";
-import { convertDate } from "../utils/date";
-import { getCurrency } from "../utils/helper";
+import { Loan } from "../../../../models/Loan";
+import { convertDate } from "../../../../utils/date";
+import { getCurrency } from "../../../../utils/helper";
 
 interface Props {
   loan: Loan;
