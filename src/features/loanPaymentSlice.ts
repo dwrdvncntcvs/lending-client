@@ -25,7 +25,9 @@ export const getLoanPayments = createAsyncThunk(
     const response = await getRequest(`${URL.lending}/loan/${loanId}/payments`);
 
     const data: LoanPayment[] = response.data;
-    return data;
+    return data.filter(
+      (loanPayment) => loanPayment.actualPaymentDate === undefined
+    );
   }
 );
 
