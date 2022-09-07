@@ -1,11 +1,11 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect } from "react";
-import { Card, Loading } from "../components";
-import { useAppDispatch, useAppSelector } from "../configurations/hooks";
-import { getBorrowers } from "../features/borrowerSlice";
+import { Card, Loading } from "../../components";
+import { useAppDispatch, useAppSelector } from "../../configurations/hooks";
+import { getBorrowers } from "../../features/borrowerSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { HomeStackParamList } from "../routes/Stacks/HomeStack";
-import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
+import { HomeStackParamList } from "../../routes/Stacks/HomeStack";
+import { setLoadingMessage, setLoadingStatus } from "../../features/loadingSlice";
 
 type Prop = NativeStackScreenProps<HomeStackParamList, "Home">;
 

@@ -1,21 +1,21 @@
 import { View, FlatList, StyleSheet, Modal, Text, Button } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../configurations/hooks";
+import { useAppDispatch, useAppSelector } from "../../configurations/hooks";
 import {
   getLoanPayments,
   getTotalLoanPayments,
-} from "../features/loanPaymentSlice";
+} from "../../features/loanPaymentSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { HomeStackParamList } from "../routes/Stacks/HomeStack";
-import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
+import { HomeStackParamList } from "../../routes/Stacks/HomeStack";
+import { setLoadingMessage, setLoadingStatus } from "../../features/loadingSlice";
 import {
   LDModalComponent,
   Loading,
   LoanDetailsCard,
   LoanDetailsFooter,
-} from "../components";
-import { LoanPaymentData } from "../models/LoanPayment";
-import { setModalStatus } from "../features/modalSlice";
+} from "../../components";
+import { LoanPaymentData } from "../../models/LoanPayment";
+import { setModalStatus } from "../../features/modalSlice";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 

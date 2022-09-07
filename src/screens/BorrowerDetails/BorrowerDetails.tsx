@@ -1,17 +1,17 @@
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../configurations/hooks";
+import { useAppDispatch, useAppSelector } from "../../configurations/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { HomeStackParamList } from "../routes/Stacks/HomeStack";
-import { getBorrowerById } from "../features/borrowerSlice";
-import { getLoansRequest } from "../features/loanSlice";
+import { HomeStackParamList } from "../../routes/Stacks/HomeStack";
+import { getBorrowerById } from "../../features/borrowerSlice";
+import { getLoansRequest } from "../../features/loanSlice";
 import {
   BorrowerDetailsComponent,
   Loading,
   Loans,
   NotFound,
-} from "../components";
-import { setLoadingMessage, setLoadingStatus } from "../features/loadingSlice";
+} from "../../components";
+import { setLoadingMessage, setLoadingStatus } from "../../features/loadingSlice";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Borrower Details">;
 
