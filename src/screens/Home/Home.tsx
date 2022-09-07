@@ -1,11 +1,15 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect } from "react";
-import { Card, Loading } from "../../components";
+import { Loading } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../configurations/hooks";
 import { getBorrowers } from "../../features/borrowerSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { HomeStackParamList } from "../../routes/Stacks/HomeStack";
-import { setLoadingMessage, setLoadingStatus } from "../../features/loadingSlice";
+import {
+  setLoadingMessage,
+  setLoadingStatus,
+} from "../../features/loadingSlice";
+import { BorrowerCard } from "../../components/Home";
 
 type Prop = NativeStackScreenProps<HomeStackParamList, "Home">;
 
@@ -38,7 +42,7 @@ export default function Home({ navigation }: Prop) {
             marginBottom: index === borrowerState.borrowers.length ? 12 : 6,
           }}
         >
-          <Card
+          <BorrowerCard
             borrower={item}
             onPress={() =>
               navigation.navigate("Borrower Details", {

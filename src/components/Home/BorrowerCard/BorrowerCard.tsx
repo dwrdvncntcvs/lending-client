@@ -5,15 +5,15 @@ import {
   GestureResponderEvent,
   View,
 } from "react-native";
-import { Borrower } from "../models/Borrower";
-import { LoanCount } from "../models/Loan";
+import { Borrower } from "../../../models/Borrower";
+import { LoanCount } from "../../../models/Loan";
 
-interface CardProps {
+interface BorrowerProps {
   borrower: Borrower & LoanCount;
   onPress: (e: GestureResponderEvent) => void;
 }
 
-export default function Card({ borrower, onPress }: CardProps) {
+export default function BorrowerCard({ borrower, onPress }: BorrowerProps) {
   console.log(borrower);
 
   return (

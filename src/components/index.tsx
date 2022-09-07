@@ -1,5 +1,5 @@
 export { default as MainContainer } from "./MainContainer";
-export { default as Card } from "./Card";
+// export { default as Card } from "./Home/Borrower/Card";
 // export { default as Loans } from "../screens/BorrowerDetails/components/Loans/Loans";
 export { default as Loading } from "./Loading";
 export { default as LoanDetailsFooter } from "./LoanDetailsFooter";
