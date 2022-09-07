@@ -6,10 +6,10 @@ import {
   GestureResponderEvent,
 } from "react-native";
 import React from "react";
-import { convertDate } from "../utils/date";
-import { LoanPayment } from "../models/LoanPayment";
-import { getCurrency } from "../utils/helper";
-import { Borrower } from "../models/Borrower";
+import { convertDate } from "../../../utils/date";
+import { LoanPayment } from "../../../models/LoanPayment";
+import { getCurrency } from "../../../utils/helper";
+import { Borrower } from "../../../models/Borrower";
 
 type Props = {
   loanPayment: LoanPayment;
@@ -17,7 +17,7 @@ type Props = {
   onPress: (e: GestureResponderEvent) => void;
 };
 
-export default function LoanDetailsCard({
+export default function LoanCard({
   loanPayment,
   borrower,
   onPress,

@@ -7,15 +7,14 @@ import {
 } from "../../features/loanPaymentSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../../routes/Stacks/HomeStack";
-import { setLoadingMessage, setLoadingStatus } from "../../features/loadingSlice";
 import {
-  LDModalComponent,
-  Loading,
-  LoanDetailsCard,
-  LoanDetailsFooter,
-} from "../../components";
+  setLoadingMessage,
+  setLoadingStatus,
+} from "../../features/loadingSlice";
+import { Loading } from "../../components";
 import { LoanPaymentData } from "../../models/LoanPayment";
 import { setModalStatus } from "../../features/modalSlice";
+import { LoanCard, LoanModal, LoanTotal } from "../../components/LoanDetails";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Loan Details">;
 
@@ -27,8 +26,13 @@ export default function LoanDetails({ route }: Props) {
     countryCode: "",
   });
 
-  const { borrowerState, loanPaymentState,loanState, loadingState, modalState } =
-    useAppSelector((state) => state);
+  const {
+    borrowerState,
+    loanPaymentState,
+    loanState,
+    loadingState,
+    modalState,
+  } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -54,7 +58,7 @@ export default function LoanDetails({ route }: Props) {
         data={loanPaymentState.loanPayments}
         style={{ display: "flex", flex: 1 }}
         renderItem={({ item }) => (
-          <LoanDetailsCard
+          <LoanCard
             borrower={borrowerState.borrower}
             loanPayment={item}
             onPress={() => {
@@ -69,7 +73,7 @@ export default function LoanDetails({ route }: Props) {
           />
         )}
       />
-      <LoanDetailsFooter
+      <LoanTotal
         borrower={borrowerState.borrower}
         totalPayment={loanPaymentState.totalPayments}
       />
@@ -85,7 +89,7 @@ export default function LoanDetails({ route }: Props) {
             { backgroundColor: "rgba(0, 0, 0, .1)" },
           ]}
         >
-          <LDModalComponent paymentData={data} loanId={route.params.loanId} />
+          <LoanModal paymentData={data} loanId={route.params.loanId} />
         </View>
       </Modal>
     </View>

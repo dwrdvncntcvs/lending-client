@@ -8,16 +8,16 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import { convertDate } from "../utils/date";
-import { LoanPaymentData, PaymentData } from "../models/LoanPayment";
-import { getCurrency } from "../utils/helper";
-import { useAppDispatch } from "../configurations/hooks";
-import { setModalStatus } from "../features/modalSlice";
-import { updateLoanPayment } from "../features/loanPaymentSlice";
+import { convertDate } from "../../../utils/date";
+import { LoanPaymentData, PaymentData } from "../../../models/LoanPayment";
+import { getCurrency } from "../../../utils/helper";
+import { useAppDispatch } from "../../../configurations/hooks";
+import { setModalStatus } from "../../../features/modalSlice";
+import { updateLoanPayment } from "../../../features/loanPaymentSlice";
 import {
   checkPaymentAmount,
   checkPaymentDate,
-} from "../services/validationService";
+} from "../../../services/validationService";
 
 type Props = {
   height?: number | string;
@@ -25,7 +25,7 @@ type Props = {
   loanId: string;
 };
 
-export default function LDModalComponent({
+export default function LoanModal({
   height = "auto",
   paymentData,
   loanId,

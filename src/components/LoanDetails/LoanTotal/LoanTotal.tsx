@@ -1,15 +1,15 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import { Borrower } from "../models/Borrower";
-import { getCurrency } from "../utils/helper";
-import { TotalPayment } from "../models/LoanPayment";
+import { Borrower } from "../../../models/Borrower";
+import { getCurrency } from "../../../utils/helper";
+import { TotalPayment } from "../../../models/LoanPayment";
 
 type Props = {
   borrower: Borrower;
   totalPayment: TotalPayment;
 };
 
-export default function LoanDetailsFooter({ borrower, totalPayment }: Props) {
+export default function LoanTotal({ borrower, totalPayment }: Props) {
   return (
     <View style={styles.footerContainer}>
       <Text>Total Payment: </Text>
